@@ -219,7 +219,47 @@ If VAR does not beat the **naive benchmark**, there is no edge. Macro VARs usual
 **Next steps:** rolling validation, VECM, adding an exogenous variable (oil, dollar index), BVAR for larger systems.
 
 ---
+## 11. Do Banks Use This in Real Life?
 
+Yes, but mostly in improved forms, and rarely as the only model.
+
+### Where VAR is used
+
+- **Central banks and research desks** (Fed, ECB, BoE and others) use VARs as a baseline forecast and to study how shocks spread. That is what IRF and FEVD do. Christopher Sims won a Nobel Prize in 2011 for this line of work.
+- **Bank economics teams** use it for quick short-horizon views on inflation, rates and growth, and as a sanity check on their main forecast.
+- **Stress testing:** scenarios such as "unemployment rises 4 points" are extended across GDP, rates and house prices using VAR-type models. The projections then feed credit-loss models.
+
+### What is used instead of a plain VAR
+
+| Problem with plain VAR | Upgrade used in practice |
+|---|---|
+| Too many parameters for few data points | **BVAR** (Bayesian VAR) shrinks coefficients toward simple behaviour |
+| Only 3-5 variables possible | **FAVAR / factor models** compress 100+ indicators into a few factors |
+| Shock ordering is arbitrary (Cholesky in IRF) | **Structural VAR** uses economic theory to identify shocks |
+| Relationships change over time | **Time-varying parameter VAR** |
+| Yields and rates move together long-run | **VECM** |
+| Data is released with a delay | **Nowcasting** (dynamic factor models) |
+| Needs an economic story | **DSGE / semi-structural models** (central banks use these for the main policy forecast) |
+
+### Learning path
+
+```mermaid
+flowchart LR
+    A["Plain VAR (this notebook)"] --> B["Rolling validation vs naive benchmark"]
+    B --> C["VECM (cointegrated series)"]
+    B --> D["BVAR (small samples)"]
+    D --> E["FAVAR / nowcasting (many indicators)"]
+    C --> F["Structural VAR + scenarios"]
+    E --> F
+```
+
+### Reality check
+
+- Final forecasts usually mix several models plus **human judgement**, not one VAR output.
+- Simple VARs are good baselines but do not predict turning points such as recessions.
+- Banks care more about **scenarios and risk** ("what if rates jump 2%?") than a single point forecast.
+- Knowing VAR well, how to validate it, and why it fails is a strong foundation. The next steps are **BVAR, VECM and FAVAR**.
+- 
 ## 11. Common Errors
 
 | Error | Fix |
